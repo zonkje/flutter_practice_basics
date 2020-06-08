@@ -1,0 +1,66 @@
+double.infinity - rozciagnij szerokość na maxa
+width: double.infinity // dla Container np
+
+Można stosować naprzemienny wrapping, czasem dac np. Card wewnatrz Containera, ale można także wewnatrz Card umiescic Container z jakims porzadanym child'em.
+
+Aligment - wyrownanie
+Column:
+-   Main axis - góra dół
+-   Cross axix - lewa prawa
+
+Row - odwrotnie, głowna oś jest lewa prawa
+
+Wrapowanie też przeydatne do stylizacji, jesli pewien widget nie ma pewnej wlasciwosci, mozna wrapnac go w inny ktory taka ma.
+
+Generalnie: Container jest to stylizacji i wyrównywania natomiast Column/Row używamy gdy musimy dwa widgety usytuowac nad sobą/obok siebie
+
+pub.dev - stronka z pakietami do darta i fluttera
+
+Stateless - wszystko co się znajduje wewnatrz widgetu jest immutable. Co prawda mozemy to zmieniac, ale nie bedzie to odwzorowywane w UI. Nie mozemy re-buildowac().
+@immutable
+
+Obsługa inputów: 
+1. dla TextField onChange (value) {field=value} //lub inne;     dla buttonów onPressed(){}
+2. dla TextField controller: myController, do tego pole final myController = TextEditingController();
+
+Scrollowanie 
+Trzeba wrapnąć w widget SingleChildScrollWidget.
+Gdy chcemy jakis konkretny widget zrobic scrollowalny to trochę trzeba pozmieniać, np najpierw wrapnąć w Container z określonym height i dopiero 
+(wewnątrz Containera) wrapnąc np. columny w SingleChildScrollWidget.
+Albo - użyć ListView.
+
+Dwa sposoby ListView:
+1 - przyjmuje childreny: [] - wtedy wszystko otacza SingleChildScrollWidget'em. Ważne: Za każdym razem renderuje wszystkie swoje elementy, nawet niewidoczne.
+W przypadku dlugich list to bedzie mialo znaczenie.
+2 - uzywany za pomoca .build() - renderuje tylko widoczne widgety. Najlepiej uzywac dla list ktorych nie bedziemy znali rozmiaru
+
+Czasem wymaganym parametrem bedzie funkcja. Będą przypadki, gdy funkcja ta ma wymagac jakiegos parametru, a my niekoniecznie bedziemy nim zainteresowani.
+Konwencja w takim przypadku jest taka: (_) => mojaFunkcja,
+
+Schowaj klawiature po zatwierdzeniu(?): 
+Navigator.of(context).pop(); // w metodzie
+
+Kolor i font
+W return MaterialApp() (główna klasa aplikacji przekazywana do main):
+theme: ThemeData(
+    primarySwtach: Colors.purple,   // aby użyć gdzieś color: Theme.of(context.primaryColor)
+    accentColor: Colors.amber,  
+    fontFamily: 'Quicksand', // lub inna nazwa, fonty definiujemy w pubspec.yaml
+)
+Dla każdego Text można osobno nadać styl: 
+style: TextStyle(
+    fontFamily: 'Open Sans',
+),
+Można też osobno dla title w AppBarze, strasznie pokrecone
+
+Obraz
+Podobnie jak fonty, obraz trzeba dodac (zadeklarowac) w pubspec.yaml a nastepnie dodac za pomoca Image.asset (asset w przypadku jak mamy localnie obraz, 
+sa inne opcje, przez url, ze strumienia itd.).
+Obraz moze byc za duzy, nie pasowac, mozna dodac wlasciwosc fix: BoxFit.cover aby dostosowac go do rozmiaru widgetu w ktorym sie znajduje. Oczywiscie nie
+moze byc to po prostu jedna z kolumn, dlatego trzeba wrapnac np w Container i okreslic wymiary kontenera.
+
+Odstepy
+Chcemy odstep miedzy poszczegolnymi wierszami? (np. Column( text, image) i chcemy odstep miedzy nimi) to mozemy
+zastosowac SizedBox(height:20)
+
+List.generate() - przydatne przy zwracaniu jakiejs zlozonej listy
